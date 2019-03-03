@@ -50,7 +50,11 @@ def dashboard(request):
     if 'user_id' not in request.session:
         return redirect('users:index')
 
-    is_user = request.session['user_id']
+    users_there = User.objects.all()
+    if len(users_there) == 0:
+        request.session.clear()
+    else:
+        is_user = request.session['user_id']
 
     if len(User.objects.filter(is_admin=True)) == 1:
         # is_admin = User.objects.get(is_admin=True)
@@ -62,13 +66,15 @@ def dashboard(request):
     elif len(User.objects.filter(is_admin=True)) > 1:
         pass
 
-    context = {
-        "user": User.objects.get(id=request.session['user_id']),
-        "users": User.objects.all()
-    }
+    if request.session['user_id']:
+        context = {
+            "user": User.objects.get(id=request.session['user_id']),
+            "users": User.objects.all()
+        }
 
-    return render(request, 'main/dashboard.html', context)
-
+        return render(request, 'main/dashboard.html', context)
+    else:
+        return render(request, 'main/index.html')
 
 def logout(request):
     request.session.clear()

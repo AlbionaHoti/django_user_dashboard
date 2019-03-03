@@ -15,6 +15,7 @@
     <section class="section">
       <h1 class="title">
         Edit {{ edit_user.first_name }}'s Profile!
+        <a href="{% url 'users:dashboard' %}" class="button is-grey is-text">Back to dashboard</a>
       </h1>
       <div class="columns">
         <div class="column">
@@ -139,8 +140,6 @@
         </div>
       </div>
     </section>
-    <a href="{% url 'users:dashboard' %}" class="button is-grey is-text">Back to dashboard</a>
-
   </div>
   </div>
 </body>
