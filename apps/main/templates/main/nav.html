@@ -1,0 +1,49 @@
+<nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="{% url 'users:dashboard' %}">
+        <img src="https://image4.owler.com/logo/coding-dojo_owler_20161201_092020_original.png" width="112"
+          height="28">
+      </a>
+
+      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+        data-target="navbarBasicExample">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <div id="navbarBasicExample" class="navbar-menu">
+      <div class="navbar-start">
+
+        {% if request.session.user_id %}
+        <a class="navbar-item">
+          Welcome {{ user.first_name }}
+        </a>
+        <a href="{% url 'users:edit' user.id %}" class="navbar-item">
+          Profile
+        </a>
+        <a href="{% url 'users:wall' %}" class="navbar-item">
+          Messages
+        </a>
+        {% endif %}
+      
+
+        <div class="navbar-item has-dropdown is-hoverable">
+
+        </div>
+      </div>
+
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            {% if request.session.user_id %}
+            <a href="{% url 'users:logout' %}" class="button is-gray is-small is-outlined">Logout</a>
+            {% else %}
+            <a href="{% url 'users:signin' %}" class="button is-gray is-small is-outlined">Sign In</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>

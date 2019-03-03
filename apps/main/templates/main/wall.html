@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hello Bulma!</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    {% include 'main/nav.html' %}
+    <section class="section">
+      <div class="container">
+        <form action="{% url 'users:message' %}" method="POST">
+          {% csrf_token %}
+          <h1 class="subtitle">Post a message</h1>
+          <div class="field">
+            <div class="control">
+              <textarea class="textarea is-primary has-fixed-size" name="message" col="20" rows="2"
+                placeholder=""></textarea>
+            </div>
+          </div>
+          <input class="button is-primary is-rounded is-small" type="submit" value="Post a message" />
+        </form>
+
+        <section class="section">
+          {% for message in messages %}
+          <div class="box">
+            <article class="media">
+
+              <div class="media-content">
+                <div class="content">
+                  <p class="has-text-primary">
+                    <strong> {{ message.user.first_name }} {{ message.user.last_name }} - </strong>
+                    <small> {{ message.created_at }}</small>
+                    <br>
+                    {{ message.message }}
+                  </p>
+                </div>
+
+              </div>
+
+            </article>
+          </div>
+          {% for comment in message.comments.all %}
+          <div class="box">
+            <article class="media">
+              
+              <div class="media-content">
+                <div class="content">
+                  <p class="has-text-info">
+                    <strong>{{ comment.user.first_name }} {{ comment.user.last_name }} - </strong>
+                    <small>{{ comment.created_at }}</small> <small>31m</small>
+                    <br>
+                    {{ comment.comment }}
+                  </p>
+                  <a href="{% url 'users:delete_comment' comment_id=comment.id %}"
+                  class="button is-gray is-small is-outlined" type="submit">Delete Comment</a>
+                </div>
+                
+              </div>
+            </article>
+          </div>
+          {% endfor %}
+
+          <form action="{% url 'users:comment' message.id %}" method="POST">
+            {% csrf_token %}
+            <section class="section">
+              <div class="field">
+                <div class="control">
+                  <textarea class="textarea is-info has-fixed-size" name="comment" rows="1" placeholder=""></textarea>
+                </div>
+              </div>
+              <input class="button is-info is-rounded is-small" type="submit" value="Post a comment" />
+            </section>
+
+          </form>
+        </section>
+        {% endfor %}
+      </div>
+    </section>
+  </div>
+</body>
+
+</html>

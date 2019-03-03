@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>User Dashboard!</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    {% include 'main/nav.html' %}
+    </br>
+    </br>
+    <h1 class="title">
+      Manage Users
+      </br>
+      </br>
+      </br>
+      {% if request.session.admin_id %}
+      <a href="{% url 'users:new' %}" class="button is-gray is-small is-info is-outlined">Add New</a>
+      {% endif %}
+    </h1>
+    <p class="title">
+
+    </p>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th><abbr title="Position">ID</abbr></th>
+          <th>Name</th>
+          <th><abbr title="Played">Email</abbr></th>
+          <th><abbr title="Won">Created at</abbr></th>
+          <th><abbr title="Won">User Level</abbr></th>
+          {% if request.session.admin_id %}
+          <th><abbr title="Won">Actions</abbr></th>
+          {% endif %}
+        </tr>
+      </thead>
+      <tfoot>
+        <tr>
+          <th><abbr title="Position">ID</abbr></th>
+          <th>Name</th>
+          <th><abbr title="Played">Email</abbr></th>
+          <th><abbr title="Won">Created at</abbr></th>
+          <th><abbr title="Won">User Level</abbr></th>
+          {% if request.session.admin_id %}
+          <th><abbr title="Won">Actions</abbr></th>
+          {% endif %}
+        </tr>
+      </tfoot>
+      <tbody>
+        {% for user in users  %}
+        <tr>
+          <th>{{ user.id }}</th>
+          {% if request.session.admin_id %}
+            <td><a href="{% url 'users:edit' user.id %}" class="is-text">{{ user.first_name }} {{ user.last_name }} </a><strong>()</strong> </td>
+          {% else %}
+            <td><a class="is-text">{{ user.first_name }} {{ user.last_name }} </a><strong>()</strong> </td>
+          {% endif %}
+         
+          <td>{{ user.email }}</td>
+          <td>{{ user.created_at }}</td>
+          {% if user.is_admin %}
+            <td>Admin</td>
+          {% else %}
+            <td>User</td>
+
+          {% endif %}
+
+          {% if request.session.admin_id %}
+
+          <td>
+            <a href="{% url 'users:remove' user.id %}" class="button is-gray is-small is-outlined">Remove</a>
+            <a href="{% url 'users:edit' user.id %}" class="button is-gray is-small is-outlined">Edit</a>
+          </td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+  </div>
+</body>
+
+</html>

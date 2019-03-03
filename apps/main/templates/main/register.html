@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login/Register</title>
+  {% load staticfiles %}
+  <link rel="stylesheet" type="text/css" href="{% static 'tweets/styles/style.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+</head>
+
+<body>
+  <div class="container">
+
+
+    <p class="subtitle has-background-grey-lighter">
+      Register here!
+    </p>
+    <form action="{% url 'users:create' %}" method="POST">
+      {% csrf_token %}
+      <div class="field">
+        <label class="label">First Name</label>
+        <div class="control">
+          <input class="input" name="first_name" type="text" placeholder="e.g John.. ">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Last Name</label>
+        <div class="control has-icons-left has-icons-right">
+          <input class="input" name="last_name" type="text" placeholder="e.g Smith..">
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Email</label>
+        <div class="control has-icons-left has-icons-right">
+          <input class="input" name="email" type="email" placeholder="email@example.com" value="hello@">
+          <span class="icon is-small is-left">
+            <i class="fas fa-envelope"></i>
+          </span>
+          <span class="icon is-small is-right">
+            <i class="fas fa-exclamation-triangle"></i>
+          </span>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label">Password</label>
+        <p class="control has-icons-left">
+          <input class="input" name="password" type="password" placeholder="Password">
+          <span class="icon is-small is-left">
+            <i class="fas fa-lock"></i>
+          </span>
+        </p>
+      </div>
+      <div class="field">
+        <label class="label">Confirm Password</label>
+        <p class="control has-icons-left">
+          <input class="input" name="confirm_password" type="password" placeholder="Confirm Password">
+          <span class="icon is-small is-left">
+            <i class="fas fa-lock"></i>
+          </span>
+        </p>
+      </div>
+      <div class="field">
+        <p class="control">
+          <button class="button is-info">
+            Register
+          </button>
+        </p>
+      </div>
+    </form>
+  </div>
+</body>
+
+</html>
